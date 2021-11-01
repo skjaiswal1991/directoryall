@@ -11,6 +11,7 @@ class Frontendapi {
   constructor(router: Router) {
     this._router = router;
     this._router.get('/category',this.getCategoryData)
+    this._router.get('/totalcategory',this.getTotalCategoryData)
     this._router.post('/directorylisting',this.getDirectoryListingByCatSlug)
     this._router.post('/directory',this.getDirectoryDataBySlug)
     this._router.get('/directory',this.getDirectoryData)
@@ -24,7 +25,6 @@ getDirectoryData = (req:Request,res:Response)=>{
   const bussinesObject = new BussinesObject();  
   bussinesObject.find((error,data)=>{
       if(error) new error_handler(500,'something whent wrong!!',error)
-      console.log("data",data.length);
         res.status(200).send(data)
   })
 }
@@ -67,17 +67,27 @@ directorychieldcategory = (req:Request,res:Response)=>{
 
   const category = new CategoryApi()
   const body = req.body;
-  console.log("requeest  at",body);
+  console.log("rdirectorychieldcategory",body);
+  if(body.slug){
+
+  
   category.find((error,data)=>{
       if(error) new error_handler(500,'something whent wrong!!',error)
-      category.find((error,data)=>{
-      if(error) new error_handler(500,'something whent wrong!!',error)
-        res.status(200).send(data)
-      },{category_parent:data[0]._id},true)
+      if(data){
+        category.find((error,data)=>{
+          if(error) new error_handler(500,'something whent wrong!!',error)
+            res.status(200).send(data)
+          },{category_parent:data[0]._id},true)
+      }else{
+        new error_handler(500,'something whent wrong!!',error)
+      }
+      
       
     //console.log(data);
 
   },{category_slug:body.slug},true)
+}
+
 
 }
 
@@ -90,6 +100,17 @@ directorychieldcategory = (req:Request,res:Response)=>{
       }
       res.status(200).send(data)
     },{category_parent:""},true)
+
+  }
+
+  getTotalCategoryData = (req: Request, res: Response ) =>{
+    const category = new CategoryApi()
+    category.find((err,data)=>{
+      if(err){
+        new error_handler(500,'something whent wrong!!',err)
+      }
+      res.status(200).send(data)
+    })
 
   }
  
