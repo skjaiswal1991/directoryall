@@ -35,7 +35,7 @@ getDirectoryDataBySlug = (req:Request,res:Response)=>{
   const agreegationObject = new AgreegationObject();
   const reviewObject = new ReviewObject()
   const body = req.body;
-  console.log("requeest   at",body);
+  console.log("requeest at",body);
   bussinesObject.find((error,dir)=>{ 
       if(error) new error_handler(500,'something whent wrong!!',error)
         //  console.log("Data Response",data);
@@ -103,6 +103,21 @@ directorychieldcategory = (req:Request,res:Response)=>{
 
   }
 
+  getCategoryBySlug = async (req: Request, res: Response) => {
+
+    console.log("here in get Category ..................");
+    const categoryObj = new CategoryApi();
+    console.log(req.body);
+    categoryObj.find((err, result) => {
+      if (err) {
+        new error_handler(500, 'something whent wrong!!', err)
+      }
+      res.status(200).send(result);
+    }, { category_slug: req.body.category_slug }, true);
+  }
+
+
+
   getTotalCategoryData = (req: Request, res: Response ) =>{
     const category = new CategoryApi()
     category.find((err,data)=>{
@@ -123,13 +138,12 @@ directorychieldcategory = (req:Request,res:Response)=>{
       if(err){
         new error_handler(500,'something whent wrong!!',err)
       }
-            console.log("Category",catdata);
-          var categoryName = catdata[0].category_title;
+            // console.log("Category",catdata);
+            var categoryDetails = catdata[0];
             bussinesObject.find((err,data)=>{
               if(err)
                 new error_handler(500,'something whent wrong!!',err)
-                
-                let newData = {data,categoryName}
+                let newData = {data,categoryDetails}
               res.status(200).send(newData)
             },
             {

@@ -54,13 +54,14 @@ export default class Bussiness implements ICategory {
   ) {
     this._categoryRepository.findOneAndUpdate(_id, doc, callback);
   }
+  
   storage = multer.diskStorage({
     destination: (req, file, cb) => {
       /*
         Files will be saved in the 'uploads' directory. Make
         sure this directory already exists!
       */
-      cb(null, "./public");
+      cb(null, "./public/uploads/category");
     },
     filename: (req, file, cb) => {
       /*

@@ -7,16 +7,28 @@ import CategoryApi from "../../../bussinessLogic/category.bussiness";
 class Category {
   private _router: Router;
   constructor(router: Router) {
+    const multerUpload = new CategoryApi();
     this._router = router;
     this._router.get("/", this.getCategory); 
     this._router.post("/", this.postCategory); 
     this._router.put("/", this.getCategoryBySlug);
-    this._router.patch("/:id", this.editCategory);
+    // this._router.patch("/:id", this.editCategory);
+    this._router.patch("/",this.updateCategory)
+    this._router.post("/image/", multerUpload.uploadMular().single("photo"),this.upload);
   }
 
-  getYelpUserData = (req:Request,res:Response)=>{
-
+  public upload =  async (req:Request,res:Response) =>{
+    try{
+      res.status(200).send(req['file']);
+    }catch(error){
+      new error_handler(500,'something whent wrong!!',error)
+    }
+    //console.log("Image upload section testing",req);
+    console.log("Image upload section testing",res);
   }
+
+
+
   public editCategory =  async (req:Request,res:Response) =>{
 
     console.log("here in get Category .................."); 
@@ -29,6 +41,8 @@ class Category {
         res.status(200).send(result);
     });
   }
+
+
 
   public getCategoryBySlug = async (req: Request, res: Response) => {
 
@@ -96,6 +110,20 @@ class Category {
       });
 
   }
+  public updateCategory = async (req:Request, res:Response) =>{
+
+    const categoryObj =  new CategoryApi();
+
+    categoryObj.update(req.body._id,req.body.data,(err,result)=>{
+        if(err){
+          new error_handler(500,'something whent wrong!!',err)
+        }
+        console.log('I am upadte category'+ JSON.stringify(result))
+        console.log(err)
+        res.status(200).send(result);
+    });
+
+}
 
  
 }

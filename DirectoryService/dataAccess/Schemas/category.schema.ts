@@ -11,7 +11,15 @@ const CategorySchema = new mongooseInstance.Schema({
     type:String,
     required:true
   },
+  category_image:{
+    type:String,
+    required:false
+  },
   category_parent:{
+    type:String,
+    required:false
+  },
+  category_content:{ 
     type:String,
     required:false
   },
