@@ -3,6 +3,7 @@ import { Schema, Document } from "mongoose";
 export interface IUserInterface extends Document {
   fullName: String;
   phoneNumber: Number;
+  username:String;
   email:String
   role: Schema.Types.ObjectId;
   profilePic:String;

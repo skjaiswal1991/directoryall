@@ -31,7 +31,7 @@ class Category {
 
   public editCategory =  async (req:Request,res:Response) =>{
 
-    console.log("here in get Category .................."); 
+    console.log("here in get editCategory .................."); 
     const categoryObj =  new CategoryApi();
     console.log(req.body);
     categoryObj.findOne(req.params.id,(err,result)=>{
@@ -46,7 +46,7 @@ class Category {
 
   public getCategoryBySlug = async (req: Request, res: Response) => {
 
-    console.log("here in get Category ..................");
+    console.log("here in get getCategoryBySlug ..................");
     const categoryObj = new CategoryApi();
     console.log(req.body);
     categoryObj.find((err, result) => {
@@ -60,9 +60,8 @@ class Category {
 
 
   public getCategory = async (req:Request, res:Response) =>{
-    console.log("here in get Category .................."); 
+    console.log("here in get getCategory .................."); 
     const categoryObj =  new CategoryApi();
-    console.log(req.body);
     let category  = [];
 
     categoryObj.find((err,result)=>{
@@ -71,7 +70,7 @@ class Category {
         }
         let count = result.length;
         result.map((cat,i)=>{
-          console.log(cat);
+          
           categoryObj.find((err,resultdata)=>{
             if(err){
               new error_handler(500,'something whent wrong!!',err)

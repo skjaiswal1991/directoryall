@@ -65,12 +65,31 @@ export default class Bussiness implements IBussiness {
     this._bussinessRepository.findOneAndUpdate(_id, doc, callback);
   }
   storage = multer.diskStorage({
+    
     destination: (req, file, cb) => {
+
+      var fs = require('fs');
+
+     const currentYear = new Date().getFullYear();
+     console.log(currentYear);
+     let month = new Date().getMonth();
+     month = month + 1;
+     var dir = './public/uploads/directory/'+currentYear;
+     
+    if (!fs.existsSync(dir)){
+         fs.mkdirSync(dir,true) ;
+     }
+     dir = './public/uploads/directory/'+currentYear+'/'+month
+     
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir,true) ;
+    }
+
       /*
         Files will be saved in the 'uploads' directory. Make
         sure this directory already exists!
       */
-      cb(null, "./public");
+      cb(null, dir);
     },
     filename: (req, file, cb) => {
       /*

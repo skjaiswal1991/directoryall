@@ -17,8 +17,48 @@ class Frontendapi {
     this._router.get('/directory',this.getDirectoryData)
     // this api use to get chield category by parent category slug
     this._router.post('/directorychieldcategory',this.directorychieldcategory)
+    this._router.post('/directorycategorypage',this.getCategorypage)
   }
 
+
+  getCategorypage = (req: Request, res: Response ) =>{
+    const bussinesObject = new BussinesObject();
+    const category = new CategoryApi()
+    const body = req.body;
+    
+    category.find((err,catdata)=>{
+      if(err){
+        new error_handler(500,'something whent wrong!!',err)
+      }
+            // console.log("Category",catdata);
+            var categoryDetails = catdata[0];
+            bussinesObject.find((err,data)=>{
+              if(err)
+                new error_handler(500,'something whent wrong!!',err)
+                category.find((error,chieldCat)=>{
+                  if(error) new error_handler(500,'something whent wrong!!',error)
+                    
+                    console.log("catdata[0]._id",catdata[0]._id)
+                    
+                    let newData = {data,chieldCat,categoryDetails}
+                    res.status(200).send(newData)
+
+                  },{category_parent:catdata[0]._id},true)
+
+                
+            },
+            {
+              'category': {
+                '$elemMatch': {
+                  '_id': `${catdata[0]._id}`
+                }
+              }
+            },true)
+      
+      
+    },{category_slug:body.slug},true)
+
+  }
 
 getDirectoryData = (req:Request,res:Response)=>{
 
@@ -99,13 +139,13 @@ directorychieldcategory = (req:Request,res:Response)=>{
         new error_handler(500,'something whent wrong!!',err)
       }
       res.status(200).send(data)
-    },{category_parent:""},true)
+    },{category_parent:""},false)
 
   }
 
   getCategoryBySlug = async (req: Request, res: Response) => {
 
-    console.log("here in get Category ..................");
+    console.log("here in get FrontAPI getCategoryBySlug ..................");
     const categoryObj = new CategoryApi();
     console.log(req.body);
     categoryObj.find((err, result) => {
@@ -119,11 +159,13 @@ directorychieldcategory = (req:Request,res:Response)=>{
 
 
   getTotalCategoryData = (req: Request, res: Response ) =>{
+    console.log("getTotalCategoryData ++++")
     const category = new CategoryApi()
     category.find((err,data)=>{
       if(err){
         new error_handler(500,'something whent wrong!!',err)
       }
+      console.log("Category List",data.length)
       res.status(200).send(data)
     })
 

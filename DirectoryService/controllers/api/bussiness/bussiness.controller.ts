@@ -25,10 +25,9 @@ class Bussiness {
     this._router.post("/", Auth.base, bussiness_validator, this.addOneBussiness);
     this._router.get("/:id",Auth.base,this.getCovidComplance);
     this._router.put("/:id", Auth.base, this.getBussinessbySlug);
+ 
    // this._router.post("/images/",this.addBussinessImages);
-
     // AnAuthrise Section
-
     // this._router.get("/", this.getBussiness);
     // this._router.patch("/", this.updateABussiness);
     // this._router.post("/", this.addBussiness);
@@ -178,11 +177,20 @@ class Bussiness {
     }else{
       const businessObj =  new BussinesObject();
       // businessObj.createOnlyOne(req.body,(err,result)=>{
-      businessObj.create(req.body, (err, result) => {
+        console.log("request from the API",req.body)
+        //debugger;
+      let dfdata = req.body;
+      req.body.userId = req.body.user.user._id;
+      req.body.iat = req.body.user.iat
+      req.body.exp = req.body.user.exp 
+      console.log("After changes request from the API",req.body) 
+
+      businessObj.find((err, result) => {
             if( err instanceof Error){
               return next(new error_handler(401,err,err));
             }else{
-              console.log(result instanceof Array  ,  result.length)
+              console.log("After saving data",result);
+              console.log(result instanceof Array,result.length)
              
                if( result instanceof Array  &&  result.length == 0){
                 console.log(result instanceof Array  &&  result)
@@ -194,10 +202,11 @@ class Bussiness {
                   res.status(200).send(result);
                  });
                }else{
-                 return next(new error_handler(403,"Not Authorised for more then one directory",err));    
+                  res.status(403).send(err);
+                 //return next(new error_handler(403,"Not Authorised for more then one directory",err));    
                }
             }
-        });
+        },{userId:`${req.body.user.user._id}`},true);
     }      
   };
 

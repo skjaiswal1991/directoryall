@@ -33,25 +33,55 @@ export class AuthBussiness  {
   public handleSingup = async (user: IUserInterface) => {
     console.log("Hadeling signup .........................................");
     const userBussiness = new UserBussiness();
-
-    this._checkExist(user.email).then((res) => {
-
-      if (!res) {
-        return new Promise((resolve, reject) => {
-          userBussiness.create(user, (err, results) => {
-            if (err) {
-              reject(err)
+    
+    let exist = await this._checkExist(user.email);
+    console.log("check++",exist);
+    if(exist){
+       return {status:"success",msg:"Account Already Exist"};
+    }else{
+      return new Promise((resolve, reject) => {
+              try{
+                
+              userBussiness.create(user, (err, results) => {
+                if (err) {
+                  reject({status:"error",msg:err})
+                }
+                console.log("usercreated +++",results)
+                return resolve({status:"success",msg:"Account create Sucessfully, please try to login"});
+              })
+            }catch(error){
+              return resolve({status:"error",msg:error});
             }
-            resolve(results);
-          })
+    
+            });
+    }
 
-        });
-      } else {
-        return false;
-      }
+    // this._checkExist(user.email).then((res) => {
+
+    //   if (!res) {
+    //     return new Promise((resolve, reject) => {
+    //       try{
+            
+    //       userBussiness.create(user, (err, results) => {
+    //         if (err) {
+    //           reject(err)
+    //         }
+    //         console.log("usercreated +++",results)
+    //         return resolve(results);
+    //       })
+    //     }catch(error){
+    //       resolve(error);
+    //     }
+
+    //     });
+    //   } else {
+    //     return res;
+    //   }
 
 
-    })
+    // })
+  
+
 
   };
 
@@ -89,13 +119,13 @@ export class AuthBussiness  {
     const queryObject = { email: email };
     console.log("checking for existance of account here.....");
     return new Promise((resolve, reject) => {
+      try{
+
       user.find(
         (err, result: Array<IUserInterface>) => {
           if (err) {
             reject(err);
           }
-          console.log('result');
-          console.log(result);
           if (result.length == 1) {
             resolve(true);
           } else if (result.length > 1) {
@@ -103,10 +133,15 @@ export class AuthBussiness  {
           } else {
             resolve(false);
           }
-        },
+        },  
         queryObject,
         true
       );
+
+    }
+    catch(error){
+        resolve(error)
+    }
     });
   };
 
