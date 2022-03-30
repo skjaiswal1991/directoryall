@@ -6,6 +6,7 @@ import CategoryApi from "../../../bussinessLogic/category.bussiness";
 import BussinesObject from '../../../bussinessLogic/bussiness.bussiness'
 import AgreegationObject from '../../../bussinessLogic/agreegation.bussiness'
 import ReviewObject from '../../../bussinessLogic/reviews.bussiness'
+const probe = require('probe-image-size');
 class Frontendapi {
   private _router: Router;
   constructor(router: Router) {
@@ -76,16 +77,23 @@ getDirectoryDataBySlug = (req:Request,res:Response)=>{
   const reviewObject = new ReviewObject()
   const body = req.body;
   console.log("requeest at",body);
-  bussinesObject.find((error,dir)=>{ 
+  bussinesObject.find(async(error,dir)=>{ 
       if(error) new error_handler(500,'something whent wrong!!',error)
-        //  console.log("Data Response",data);
+           console.log("Data Response",dir);
+            let dataDir = JSON.parse(JSON.stringify(dir));
+            let ImageD = dataDir[0].images;
+            let imgDetails = {}
+            console.log("image",ImageD[0].file_name);
+            if(ImageD && ImageD.length > 0 && ImageD[0].file_name){
+              imgDetails  = await probe(`https://www.rateusonline.com/wp-content/sabai/File/files/${ImageD[0].file_name}`);
+            }
             agreegationObject.find((error,agreegate)=>{
               if(error) new error_handler(500,'something whent wrong!!',error)
              
                 reviewObject.find((error,review)=>{
                     if(error) new error_handler(500,'something whent wrong!!',error)
                       
-                      let data = {...dir,agreegate,review}
+                      let data = {...dir,agreegate,review,imgDetails}
                       res.status(200).send(data)
                 },
                 {businessId:dir[0]._id},

@@ -23,6 +23,18 @@ const CategorySchema = new mongooseInstance.Schema({
     type:String,
     required:false
   },
+  category_body:{ 
+    type:String,
+    required:false
+  },
+  category_metatitle:{ 
+    type:String,
+    required:false
+  },
+  category_metadesc:{ 
+    type:String,
+    required:false
+  },
   created_at: {
     type: Date,
     required: false,

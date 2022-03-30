@@ -6,6 +6,9 @@ export interface ICategoryInterface extends Document {
   category_parent:String,
   category_image:String,
   category_content:String,
+  category_body:String,
+  category_metatitle:String,
+  category_metadesc:String,
   created_at: Date;
   updated_at: Date;
 }

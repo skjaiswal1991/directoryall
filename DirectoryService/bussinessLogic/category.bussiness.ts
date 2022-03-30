@@ -22,8 +22,13 @@ export default class Bussiness implements ICategory {
     callback: (error: any, result: any) => void
   ) {
     this._categoryRepository.findOne(_id, (err, res) => {
-      if (err) callback(err, res);
-      else this._categoryRepository.update(res._id, item, callback);
+      if (err) {
+        callback(err, res);
+      }
+      else {
+        console.log("res",res);
+        this._categoryRepository.updateOne(res._id, item, callback);
+      }
     });
   }
 

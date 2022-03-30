@@ -25,6 +25,7 @@ class Bussiness {
     this._router.post("/", Auth.base, bussiness_validator, this.addOneBussiness);
     this._router.get("/:id",Auth.base,this.getCovidComplance);
     this._router.put("/:id", Auth.base, this.getBussinessbySlug);
+
  
    // this._router.post("/images/",this.addBussinessImages);
     // AnAuthrise Section
@@ -255,13 +256,12 @@ class Bussiness {
   getBussiness = (req: Request, res: Response, next)=>{
     console.log("here in get business .................."); 
     const businessObj =  new BussinesObject();
-    console.log(req.body);
-    console.log('Business')
-    console.log(req.body.user.user._id);
+
     businessObj.find((err,result)=>{
         if(err){
           new error_handler(500,'something whent wrong!!',err)
         } 
+        console.log(result)
         res.status(200).send(result);
     },
       { userId: `${req.body.user.user._id}` },
@@ -295,6 +295,8 @@ class Bussiness {
         if (error) {
           next(new error_handler(500, 'need Id for call', "need Slug for call"))
         } else {
+
+          console.log("business",bussiness)
           res.status(200).send(bussiness);
         }
       },
