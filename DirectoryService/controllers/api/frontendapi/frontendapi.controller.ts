@@ -6,6 +6,7 @@ import CategoryApi from "../../../bussinessLogic/category.bussiness";
 import BussinesObject from '../../../bussinessLogic/bussiness.bussiness'
 import AgreegationObject from '../../../bussinessLogic/agreegation.bussiness'
 import ReviewObject from '../../../bussinessLogic/reviews.bussiness'
+
 const probe = require('probe-image-size');
 class Frontendapi {
   private _router: Router;
@@ -70,6 +71,24 @@ getDirectoryData = (req:Request,res:Response)=>{
   })
 }
 
+get_file_validation = (filepath) =>{
+  var request = require('request'); // include request module
+  return new Promise((resolve,rejects)=>{
+    request(filepath, function (err, resp) {
+      console.log(resp.statusCode,err)
+      if (resp.statusCode === 200) {
+        resolve(true);  // file exist
+      }
+      if (resp.statusCode === 404) {
+        resolve(false);  // file exist
+      }
+        rejects(false);
+        // file does not exist
+    });
+  })
+
+}
+
 getDirectoryDataBySlug = (req:Request,res:Response)=>{
 
   const bussinesObject = new BussinesObject();
@@ -83,10 +102,12 @@ getDirectoryDataBySlug = (req:Request,res:Response)=>{
             let dataDir = JSON.parse(JSON.stringify(dir));
             let ImageD = dataDir[0].images;
             let imgDetails = {}
-            console.log("image",ImageD[0].file_name);
-            if(ImageD && ImageD.length > 0 && ImageD[0].file_name){
-              imgDetails  = await probe(`https://www.rateusonline.com/wp-content/sabai/File/files/${ImageD[0].file_name}`);
-            }
+            //console.log("image",ImageD[0].file_name);
+            // if(ImageD && ImageD.length > 0 && ImageD[0].file_name){
+            //   let response = await this.get_file_validation(`https://www.rateusonline.com/wp-content/sabai/File/files/${ImageD[0].file_name}`)
+            //   if(response)
+            //     imgDetails  = await probe(`https://www.rateusonline.com/wp-content/sabai/File/files/${ImageD[0].file_name}`);
+            // }
             agreegationObject.find((error,agreegate)=>{
               if(error) new error_handler(500,'something whent wrong!!',error)
              
