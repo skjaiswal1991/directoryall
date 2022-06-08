@@ -26,6 +26,9 @@ const UserSchema = new mongooseInstance.Schema({
     required:true,
     index:{unique:true}
   },
+  varifycode:{
+    type:String
+  },
   profilePic: {
     type: String,
   },

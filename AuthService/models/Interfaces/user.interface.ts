@@ -11,6 +11,7 @@ export interface IUserInterface extends Document {
     lat: String,
     lng: String
   };
+  varifycode:String;
   registerDate: String;
   password:String;
   isActive:boolean;

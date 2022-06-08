@@ -5,6 +5,7 @@ import { UserBussiness } from "./user.bussiness";
 import * as multer from "multer";
 const uuidv4 = require("uuid-v4");
 import * as path from "path";
+import { exit } from "process";
 
 interface UserResults {
   isActive: Boolean;
@@ -29,6 +30,26 @@ export class AuthBussiness  {
           },[{email:user.email},{password:user.password}])
     });
   };
+
+  public validateVarifycode = async (user: IUserInterface)=>{
+    console.log("Handle Email varification .......")
+    let exist = await this._checkExistUserByVarifycode(user.varifycode);
+    if(exit){
+      return exist;
+    }else{
+      return false;
+    }
+}
+
+  public validateEmail = async (user: IUserInterface)=>{
+      console.log("Handle Email varification .......")
+      let exist = await this._checkExistUser(user.email);
+      if(exit){
+        return exist;
+      }else{
+        return false;
+      }
+  }
 
   public handleSingup = async (user: IUserInterface) => {
     console.log("Hadeling signup .........................................");
@@ -114,6 +135,66 @@ export class AuthBussiness  {
 
   };
 
+  private _checkExistUserByVarifycode = async (varifycode: String) => {
+    const user = new UserBussiness();
+    const queryObject = { varifycode: varifycode };
+    console.log("checking for existance of account here.....");
+    return new Promise((resolve, reject) => {
+      try{
+
+      user.find(
+        (err, result: Array<IUserInterface>) => {
+          if (err) {
+            reject(err);
+          }
+          if (result.length == 1) {
+            resolve(result);
+          } else if (result.length > 1) {
+            reject("multiple_account_found");
+          } else {
+            resolve(false);
+          }
+        },  
+        queryObject,
+        true
+      );
+
+    }
+    catch(error){
+        resolve(error)
+    }
+    });
+  };
+  private _checkExistUser = async (email: String) => {
+    const user = new UserBussiness();
+    const queryObject = { email: email };
+    console.log("checking for existance of account here.....");
+    return new Promise((resolve, reject) => {
+      try{
+
+      user.find(
+        (err, result: Array<IUserInterface>) => {
+          if (err) {
+            reject(err);
+          }
+          if (result.length == 1) {
+            resolve(result);
+          } else if (result.length > 1) {
+            reject("multiple_account_found");
+          } else {
+            resolve(false);
+          }
+        },  
+        queryObject,
+        true
+      );
+
+    }
+    catch(error){
+        resolve(error)
+    }
+    });
+  };
   private _checkExist = async (email: String) => {
     const user = new UserBussiness();
     const queryObject = { email: email };
@@ -126,6 +207,7 @@ export class AuthBussiness  {
           if (err) {
             reject(err);
           }
+          console.log("Result Users ++",result);
           if (result.length == 1) {
             resolve(true);
           } else if (result.length > 1) {
