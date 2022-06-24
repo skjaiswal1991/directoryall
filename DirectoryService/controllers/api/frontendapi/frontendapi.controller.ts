@@ -26,6 +26,7 @@ class Frontendapi {
   getCategorypage = (req: Request, res: Response ) =>{
     const bussinesObject = new BussinesObject();
     const category = new CategoryApi()
+    const reviewObject = new ReviewObject()
     const body = req.body;
     
     category.find((err,catdata)=>{
@@ -40,10 +41,18 @@ class Frontendapi {
                 category.find((error,chieldCat)=>{
                   if(error) new error_handler(500,'something whent wrong!!',error)
                     
-                    console.log("catdata[0]._id",catdata[0]._id)
+                    //console.log("catdata[0]._id",catdata[0]._id)
+                    reviewObject.find((error,review)=>{
+                      if(error) new error_handler(500,'something whent wrong!!',error)
+                        //  console.log("review API",review);
+                        // let data = {...dir,agreegate,review,imgDetails}
+                        // res.status(200).send(data)
+                        let newData = {data,chieldCat,categoryDetails,review}
+                        res.status(200).send(newData)
+                  },
+                  {},
+                  false)
                     
-                    let newData = {data,chieldCat,categoryDetails}
-                    res.status(200).send(newData)
 
                   },{category_parent:catdata[0]._id},true)
 
@@ -71,7 +80,7 @@ getDirectoryData = (req:Request,res:Response)=>{
   })
 }
 
-get_file_validation = (filepath) =>{
+get_file_validation = (filepath) => {
   var request = require('request'); // include request module
   return new Promise((resolve,rejects)=>{
     request(filepath, function (err, resp) {
@@ -188,13 +197,13 @@ directorychieldcategory = (req:Request,res:Response)=>{
 
 
   getTotalCategoryData = (req: Request, res: Response ) =>{
-    console.log("getTotalCategoryData ++++")
+    //console.log("getTotalCategoryData ++++")
     const category = new CategoryApi()
     category.find((err,data)=>{
       if(err){
         new error_handler(500,'something whent wrong!!',err)
       }
-      console.log("Category List",data.length)
+      //console.log("Category List",data.length)
       res.status(200).send(data)
     })
 
@@ -203,19 +212,26 @@ directorychieldcategory = (req:Request,res:Response)=>{
   getDirectoryListingByCatSlug = (req: Request, res: Response ) =>{
     const bussinesObject = new BussinesObject();
     const category = new CategoryApi()
+    const review = new ReviewObject()
     const body = req.body;
     
     category.find((err,catdata)=>{
       if(err){
         new error_handler(500,'something whent wrong!!',err)
       }
-            // console.log("Category",catdata);
+            console.log("Category",catdata);
             var categoryDetails = catdata[0];
             bussinesObject.find((err,data)=>{
               if(err)
                 new error_handler(500,'something whent wrong!!',err)
-                let newData = {data,categoryDetails}
-              res.status(200).send(newData)
+                // let newData = {data,categoryDetails}
+                review.find((error,reviewdata)=>{
+                  if(err)
+                    new error_handler(500,'something whent wrong!!',error) 
+                    let newData = {data,categoryDetails,reviewdata}
+                    res.status(200).send(newData)
+                },{},false)
+               
             },
             {
               'category': {

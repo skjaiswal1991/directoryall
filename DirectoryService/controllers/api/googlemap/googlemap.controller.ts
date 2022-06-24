@@ -23,7 +23,7 @@ class Googlemap {
       let urldata = req.body.url.split('/place/')
       console.log(urldata);
       let businessName = urldata[1].split('/@')[0]
-      console.log(businessName);
+      console.log("businessName",businessName);
       Googlemap.getAllReviewAndRatingGoogleMap(req.body, businessName)
         .then((response) => {
 

@@ -22,13 +22,16 @@ public getZomatoRatings=async (req:Request,res:Response, next)=>{
         console.log("getZomatoRatings is ready to sended");
         ZomatoBussiness.filterData(data.data,req.body.url)
         .then((respone)=>{
-
-          let newReview = [
+          console.log("zamato response",respone);
+          let newReview = []
+        if(respone)
+           newReview = [
                             {...respone['restaurant'],
                             zamato_review:respone['restaurant'].user_rating,
                             user_rating:respone['restaurant'].user_rating.aggregate_rating,
                             user_review:respone['restaurant'].user_rating.votes,
                           }]
+                      
            //res.status(200).send(newReview);
            if(newReview){
             res.status(200).send({status:"success",result:newReview});

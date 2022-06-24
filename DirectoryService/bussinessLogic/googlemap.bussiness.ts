@@ -11,7 +11,7 @@ export default class GooglemapBusinessLogic {
      public client: any;
      public getLocationDetails: any;
      constructor() {
-          this.apiKey = 'AIzaSyDNEtXw16U-UOAeFKeuHYu3xmH_qQ1gwkU'
+          this.apiKey = 'AIzaSyCBQ-xncJH7hbgYe4crvHoJ89KnFxvxDwY'
 
           this.getLocationDetails = axios.create({
                baseURL: "https://maps.googleapis.com/maps/api/place/textsearch/",

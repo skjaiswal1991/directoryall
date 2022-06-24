@@ -154,8 +154,21 @@ class Bussiness {
 
     if ('covidcomplehance' in req.body) {
 
-      // console.log(req.body)
+      console.log(req.body)
       const { Id } = req.body;
+      bussinesObject.update(Id, req.body, (error, result) => {
+        if (error) {
+          console.log(error);
+          new error_handler(500, 'something whent wrong!!', error)
+        }
+        console.log(result)
+        res.status(200).send(result);
+      })
+    }
+
+    if('directoryupdate' in req.body){
+        console.log("Update working")
+        const { Id } = req.body;
       bussinesObject.update(Id, req.body, (error, result) => {
         if (error) {
           console.log(error);
