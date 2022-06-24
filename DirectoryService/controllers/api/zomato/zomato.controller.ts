@@ -15,14 +15,14 @@ class Zomato {
 
 public getZomatoRatings=async (req:Request,res:Response, next)=>{
     const ZomatoBussiness = new ZomatoApi();
-    console.log("Here in zomato rateing part");
-    console.log(req.body)
+    //console.log("Here in zomato rateing part");
+    //console.log(req.body)
     try{
       const data:any =  await ZomatoBussiness.getRestorantListOnCords(req.body.lat,req.body.lng,req.body.url)
-        console.log("getZomatoRatings is ready to sended");
+       // console.log("getZomatoRatings is ready to sended");
         ZomatoBussiness.filterData(data.data,req.body.url)
         .then((respone)=>{
-          console.log("zamato response",respone);
+          //console.log("zamato response",respone);
           let newReview = []
         if(respone)
            newReview = [
@@ -41,7 +41,7 @@ public getZomatoRatings=async (req:Request,res:Response, next)=>{
           })
  
        }catch(error){
-        console.log('here in error part');
+       // console.log('here in error part');
         return next(new error_handler(422,'something whent wrong!!',error));
       }
   }

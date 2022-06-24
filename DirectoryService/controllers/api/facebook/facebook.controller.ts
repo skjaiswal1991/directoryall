@@ -11,7 +11,7 @@ class Facebook {
   }
 
   getFacebookUserData = (req:Request,res:Response)=>{
-      console.log(req.body);
+      //console.log(req.body);
   } 
 }
 module.exports = Facebook;

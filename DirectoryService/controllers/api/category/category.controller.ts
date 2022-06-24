@@ -24,7 +24,7 @@ class Category {
       new error_handler(500,'something whent wrong!!',error)
     }
     //console.log("Image upload section testing",req);
-    console.log("Image upload section testing",res);
+    //console.log("Image upload section testing",res);
   }
 
 
@@ -33,7 +33,7 @@ class Category {
 
     console.log("here in get editCategory .................."); 
     const categoryObj =  new CategoryApi();
-    console.log(req.body);
+    //console.log(req.body);
     categoryObj.findOne(req.params.id,(err,result)=>{
         if(err){
           new error_handler(500,'something whent wrong!!',err)
@@ -48,7 +48,7 @@ class Category {
 
     console.log("here in get getCategoryBySlug ..................");
     const categoryObj = new CategoryApi();
-    console.log(req.body);
+    //console.log(req.body);
     categoryObj.find((err, result) => {
       if (err) {
         new error_handler(500, 'something whent wrong!!', err)

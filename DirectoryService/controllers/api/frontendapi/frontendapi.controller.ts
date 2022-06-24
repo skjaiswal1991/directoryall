@@ -185,7 +185,7 @@ directorychieldcategory = (req:Request,res:Response)=>{
 
     console.log("here in get FrontAPI getCategoryBySlug ..................");
     const categoryObj = new CategoryApi();
-    console.log(req.body);
+    //console.log(req.body);
     categoryObj.find((err, result) => {
       if (err) {
         new error_handler(500, 'something whent wrong!!', err)
@@ -219,7 +219,7 @@ directorychieldcategory = (req:Request,res:Response)=>{
       if(err){
         new error_handler(500,'something whent wrong!!',err)
       }
-            console.log("Category",catdata);
+            //console.log("Category",catdata);
             var categoryDetails = catdata[0];
             bussinesObject.find((err,data)=>{
               if(err)

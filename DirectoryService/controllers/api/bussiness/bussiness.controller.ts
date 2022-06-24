@@ -65,7 +65,7 @@ class Bussiness {
     // console.log(req.body)
     const bussinesObject = new BussinesObject();
     if("md5Image" in req.body){
-      console.log(true)
+      //console.log(true)
       const {Id, md5Image} = req.body; 
       bussinesObject.findOneAndUpsert(Id,{profilePic:md5Image},(err,results)=>{
            if(err){
@@ -76,7 +76,7 @@ class Bussiness {
      }
 
     if ("coverImage" in req.body) {
-      console.log("sanjay")
+      
       const { Id, coverImage } = req.body;
       bussinesObject.findOneAndUpsert(Id, { coverPic: coverImage }, (err, results) => {
         if (err) {
@@ -111,14 +111,14 @@ class Bussiness {
     if ('dirimage' in req.body) {
       // console.log(req.body);
       const { Id, images } = req.body;
-      console.log(req.body)
+      //console.log(req.body)
 
       bussinesObject.update(Id, req.body, (err, results) => {
         if (err) {
           console.log(err);
           new error_handler(500, 'something whent wrong!!', err)
         }
-        console.log(results)
+        //console.log(results)
         res.status(200).send(results);
       })
 
@@ -133,48 +133,48 @@ class Bussiness {
           console.log(error);
           new error_handler(500, 'something whent wrong!!', error)
         }
-        console.log(result)
+        //console.log(result)
         res.status(200).send(result);
       })
     }
 
     if ('feature' in req.body) {
 
-      console.log(req.body)
+      //console.log(req.body)
       const { Id } = req.body;
       bussinesObject.update(Id, req.body, (error, result) => {
         if (error) {
           console.log(error);
           new error_handler(500, 'something whent wrong!!', error)
         }
-        console.log(result)
+        //console.log(result)
         res.status(200).send(result);
       })
     }
 
     if ('covidcomplehance' in req.body) {
 
-      console.log(req.body)
+      //console.log(req.body)
       const { Id } = req.body;
       bussinesObject.update(Id, req.body, (error, result) => {
         if (error) {
           console.log(error);
           new error_handler(500, 'something whent wrong!!', error)
         }
-        console.log(result)
+        //console.log(result)
         res.status(200).send(result);
       })
     }
 
     if('directoryupdate' in req.body){
-        console.log("Update working")
+        //console.log("Update working")
         const { Id } = req.body;
       bussinesObject.update(Id, req.body, (error, result) => {
         if (error) {
           console.log(error);
           new error_handler(500, 'something whent wrong!!', error)
         }
-        console.log(result)
+       // console.log(result)
         res.status(200).send(result);
       })
     }
@@ -191,23 +191,23 @@ class Bussiness {
     }else{
       const businessObj =  new BussinesObject();
       // businessObj.createOnlyOne(req.body,(err,result)=>{
-        console.log("request from the API",req.body)
+        //console.log("request from the API",req.body)
         //debugger;
       let dfdata = req.body;
       req.body.userId = req.body.user.user._id;
       req.body.iat = req.body.user.iat
       req.body.exp = req.body.user.exp 
-      console.log("After changes request from the API",req.body) 
+      //console.log("After changes request from the API",req.body) 
 
       businessObj.find((err, result) => {
             if( err instanceof Error){
               return next(new error_handler(401,err,err));
             }else{
-              console.log("After saving data",result);
-              console.log(result instanceof Array,result.length)
+              //console.log("After saving data",result);
+              //console.log(result instanceof Array,result.length)
              
                if( result instanceof Array  &&  result.length == 0){
-                console.log(result instanceof Array  &&  result)
+                //console.log(result instanceof Array  &&  result)
              
                   businessObj.create(req.body,(err,result)=>{
                   if(err){
@@ -259,7 +259,7 @@ class Bussiness {
             if(err){
               new error_handler(500,'something whent wrong!!',err)
             }
-            console.log('I am here____'+ JSON.stringify(result))
+            //console.log('I am here____'+ JSON.stringify(result))
             console.log(err)
             res.status(200).send(result);
         });        

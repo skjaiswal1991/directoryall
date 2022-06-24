@@ -19,23 +19,23 @@ class Agreegation {
         const agreegate = new AgreegationApi();
         ////console.log(req)        
         // res.status(200).send("shfsjdgfjsgjf");
-        console.log(req.body)
+        //console.log(req.body)
         if (req.body.businessId) {
             const query = { businessId: req.body.businessId }
             agreegate.find((error, result) => {
 
-                console.log(result);
+                //console.log(result);
                 if (result.length > 0) {
                     //console.log("If condition");
                     agreegate.update(result[0]._id, req.body, (err, result) => {
                         if (err) {
-                            console.log(err);
+                            //console.log(err);
                             new error_handler(500, 'something whent wrong!!', err)
                         }
                         res.status(200).send(result);
                     });
                 } else {
-                    console.log("Else condition");
+                    //console.log("Else condition");
                     agreegate.create(req.body,(err,result)=>{
                         if(err){
                             console.log(err);

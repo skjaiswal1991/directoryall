@@ -18,12 +18,12 @@ class Googlemap {
     try {
 
       const Googlemap = new GooglemapApi();
-      console.log(req.body)
+      //console.log(req.body)
 
       let urldata = req.body.url.split('/place/')
-      console.log(urldata);
+      //console.log(urldata);
       let businessName = urldata[1].split('/@')[0]
-      console.log("businessName",businessName);
+      //console.log("businessName",businessName);
       Googlemap.getAllReviewAndRatingGoogleMap(req.body, businessName)
         .then((response) => {
 
@@ -35,7 +35,7 @@ class Googlemap {
             'review': response[0].user_ratings_total
 
           }
-          console.log(BusineResult);
+          //console.log(BusineResult);
           if (response !== 'undefiend') {
 
             res.status(200).send({

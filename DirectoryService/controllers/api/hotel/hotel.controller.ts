@@ -18,13 +18,13 @@ class Hotel {
 
 
       const hotel = new HotelApi();
-      console.log(req.body)
+      //console.log(req.body)
       let url = req.body.url.split(/[?#]/)[0]
       // myString.replace(/\D/g,'');
       //   console.log(url)
       let urldata = url.split('/ho')
       var desired = urldata[urldata.length - 1].replace(/[^\w\s]/gi, '')
-      console.log(parseInt(desired))
+     // console.log(parseInt(desired))
       // const responseData = {
 
       //   "name": "citizenM London Shoreditch",
@@ -37,7 +37,7 @@ class Hotel {
       // res.status(200).send({ status: "success", result: responseData });
       hotel.getAllReviewAndRating(parseInt(desired))
         .then((response) => {
-          console.log(response)
+          //console.log(response)
           // console.log(response['data']['body']['guestReviews']) 
 
           if (response['result'] == 'OK') {

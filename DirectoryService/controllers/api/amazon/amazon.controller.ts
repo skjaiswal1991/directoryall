@@ -18,14 +18,14 @@ class Amazon {
 
 
       const amazon = new AmazonApi();
-      console.log(req.body)
+      //console.log(req.body)
       let url = req.body.url.split(/[?#]/)[0]
       // myString.replace(/\D/g,'');
 
       let urldata = url.split('/dp/')
-      console.log(urldata)
+      //console.log(urldata)
       var desired = urldata[urldata.length - 1].replace(/[^\w\s]/gi, '')
-      console.log(desired)
+      //console.log(desired)
       // const responseData = {
 
       //   "name": "citizenM London Shoreditch",
