@@ -220,7 +220,11 @@ directorychieldcategory = (req:Request,res:Response)=>{
         new error_handler(500,'something whent wrong!!',err)
       }
             //console.log("Category",catdata);
-            var categoryDetails = catdata[0];
+           if(!catdata && !catdata[0]._id){
+               res.status(200).send({data:[],categoryDetails:[],reviewdata:[]})
+            }else{    
+              var categoryDetails = catdata[0];
+           
             bussinesObject.find((err,data)=>{
               if(err)
                 new error_handler(500,'something whent wrong!!',err)
@@ -240,6 +244,7 @@ directorychieldcategory = (req:Request,res:Response)=>{
                 }
               }
             },true)
+          }
       
       
     },{category_slug:body.slug},true)
