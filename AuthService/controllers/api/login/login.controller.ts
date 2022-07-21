@@ -101,7 +101,7 @@ class loginController {
                    const tokens = await LoginLogic.createTokens(Person); 
                    res.status(200).send({state:"success",msg:'logged in success fully',tokens,Person})
                 }else{
-                    next(new error_handler(503,'Login and password are wrong!',''));
+                    res.status(503).send({state:"success",msg:'Login and password are wrong!'});
                 }      
                 
         }catch(err){
