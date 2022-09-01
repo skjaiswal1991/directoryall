@@ -93,15 +93,15 @@ class loginController {
         try{
                 const LoginLogic =  new AuthBussiness() 
                 const resp = await LoginLogic.handleLogin(req.body)
-                console.log('Object Entity');
-                console.log(Object.entries(resp))
+                // console.log('Object Entity');
+                // console.log(Object.entries(resp))
                 //console.log(Object.values(resp))
                 const Person = Object.values(resp);
                 if(Person.length === 1){
                    const tokens = await LoginLogic.createTokens(Person); 
                    res.status(200).send({state:"success",msg:'logged in success fully',tokens,Person})
                 }else{
-                    res.status(503).send({state:"success",msg:'Login and password are wrong!'});
+                    res.status(503).send({state:"erorr",msg:'Login and password are wrong!'});
                 }      
                 
         }catch(err){

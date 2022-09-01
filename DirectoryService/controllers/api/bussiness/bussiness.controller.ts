@@ -21,7 +21,7 @@ class Bussiness {
     this._router = router;
 
     this._router.get("/", Auth.base, this.getBussiness);
-    this._router.patch("/", Auth.base,this.updateABussiness); 
+    // this._router.patch("/", Auth.base,this.updateABussiness); 
     this._router.post("/", Auth.base, bussiness_validator, this.addOneBussiness);
     this._router.get("/:id",Auth.base,this.getCovidComplance);
     this._router.put("/:id", Auth.base, this.getBussinessbySlug);
@@ -30,7 +30,7 @@ class Bussiness {
    // this._router.post("/images/",this.addBussinessImages);
     // AnAuthrise Section
     // this._router.get("/", this.getBussiness);
-    // this._router.patch("/", this.updateABussiness);
+    this._router.patch("/", this.updateABussiness);
     // this._router.post("/", this.addBussiness);
     // this._router.get("/:id",Auth.base,this.getBussinessbyId);
     // this._router.put("/slug/", this.getBussinessbySlug);
@@ -62,7 +62,7 @@ class Bussiness {
   public updateABussiness = async (req:Request,res:Response) =>{  
     console.log("here in patch business .................."); 
     //
-    // console.log(req.body)
+    console.log(req.body)
     const bussinesObject = new BussinesObject();
     if("md5Image" in req.body){
       //console.log(true)
@@ -166,6 +166,18 @@ class Bussiness {
       })
     }
 
+    if('directorysocial' in req.body){
+      console.log("directorysocial+++")
+      const { Id } = req.body;
+      bussinesObject.update(Id, req.body, (error, result) => {
+        if (error) {
+          console.log(error);
+          new error_handler(500, 'something whent wrong!!', error)
+        }
+      // console.log(result)
+        res.status(200).send(result);
+      })
+    }
     if('directoryupdate' in req.body){
         //console.log("Update working")
         const { Id } = req.body;
