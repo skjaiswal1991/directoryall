@@ -57,8 +57,6 @@ class Category {
     }, { category_slug: req.body.category_slug }, true);
   }
 
-
-
   public getCategory = async (req:Request, res:Response) =>{
     console.log("here in get getCategory .................."); 
     const categoryObj =  new CategoryApi();
@@ -68,33 +66,74 @@ class Category {
         if(err){
           new error_handler(500,'something whent wrong!!',err)
         }
-        let count = result.length;
-        result.map((cat,i)=>{
+        let category = result;
+        const filterCategory = category.filter((c)=>c.category_title!='Other')
+        res.status(200).send(filterCategory);
+        // console.log("count",)
+        // result.map((cat,i)=>{
           
-          categoryObj.find((err,resultdata)=>{
-            if(err){
-              new error_handler(500,'something whent wrong!!',err)
-            }
+        //   categoryObj.find((err,resultdata)=>{
+        //     if(err){
+        //       new error_handler(500,'something whent wrong!!',err)
+        //     }
             
-           category.push(cat)
-           if(resultdata.length > 0)     
-           resultdata.map((child,i)=>{
-            category.push(child)
-           })
+        //    category.push(cat)
+        //    if(resultdata.length > 0)     
+        //    resultdata.map((child,i)=>{
+        //     category.push(child)
+        //    })
            
 
-            if(count == (i + 1)){
-             // console.log(cat._id);
-             // console.log(resultdata);
-              res.status(200).send(category);
-            }
+        //     if(count == (i + 1)){
+        //      // console.log(cat._id);
+        //      // console.log(resultdata);
+        //       res.status(200).send(category);
+        //     }
             
-          },{"category_parent":cat._id},true)
+        //   },{"category_parent":cat._id},true)
 
-        }) 
+        // }) 
        // res.status(200).send(result);
-    },{'category_parent':""},true);
+    },false);
   }
+
+  // public getCategory = async (req:Request, res:Response) =>{
+  //   console.log("here in get getCategory .................."); 
+  //   const categoryObj =  new CategoryApi();
+  //   let category  = [];
+
+  //   categoryObj.find((err,result)=>{
+  //       if(err){
+  //         new error_handler(500,'something whent wrong!!',err)
+  //       }
+  //       let count = result.length;
+  //       console.log("count",)
+  //       result.map((cat,i)=>{
+          
+  //         categoryObj.find((err,resultdata)=>{
+  //           if(err){
+  //             new error_handler(500,'something whent wrong!!',err)
+  //           }
+            
+  //          category.push(cat)
+  //          if(resultdata.length > 0)     
+  //          resultdata.map((child,i)=>{
+  //           category.push(child)
+  //          })
+           
+
+  //           if(count == (i + 1)){
+  //            // console.log(cat._id);
+  //            // console.log(resultdata);
+  //             res.status(200).send(category);
+  //           }
+            
+  //         },{"category_parent":cat._id},true)
+
+  //       }) 
+  //      // res.status(200).send(result);
+  //   },{'category_parent':""},true);
+  // }
 
   public postCategory = async (req:Request, res:Response) =>{
 

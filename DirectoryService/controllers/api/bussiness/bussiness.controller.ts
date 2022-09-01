@@ -5,9 +5,6 @@ import error_handler from "../../../server/middlewares/error.handler.class";
 import bussiness_validator from "../../../server/middlewares/validators/bussiness.validator"
 import BussinesObject from "../../../bussinessLogic/bussiness.bussiness"; 
 import ReviewObject from '../../../bussinessLogic/reviews.bussiness'
-import ZomatoApi from "../../../bussinessLogic/zomato.bussiness";
-import CategoryApi from "../../../bussinessLogic/category.bussiness";
-
 class Bussiness {
 
   private _router: Router;
